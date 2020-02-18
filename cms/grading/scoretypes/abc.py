@@ -245,14 +245,12 @@ class ScoreTypeGroup(ScoreTypeAlone):
                     <th class="details">
                         {% trans %}Details{% endtrans %}
                     </th>
-    {% if feedback_level == FEEDBACK_LEVEL_FULL %}
                     <th class="execution-time">
                         {% trans %}Execution time{% endtrans %}
                     </th>
                     <th class="memory-used">
                         {% trans %}Memory used{% endtrans %}
                     </th>
-    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -272,7 +270,6 @@ class ScoreTypeGroup(ScoreTypeAlone):
                     <td class="details">
                       {{ tc["text"]|format_status_text }}
                     </td>
-            {% if feedback_level == FEEDBACK_LEVEL_FULL %}
                     <td class="execution-time">
                 {% if "time" in tc and tc["time"] is not none %}
                         {{ tc["time"]|format_duration }}
@@ -287,19 +284,15 @@ class ScoreTypeGroup(ScoreTypeAlone):
                         {% trans %}N/A{% endtrans %}
                 {% endif %}
                     </td>
-            {% endif %}
                 </tr>
-        {% else %}
+            {% if tc["outcome"] == "Not correct" and feedback_level == FEEDBACK_LEVEL_RESTRICTED %}
                 <tr class="undefined">
-                    <td class="idx">{{ loop.index }}</td>
-            {% if feedback_level == FEEDBACK_LEVEL_FULL %}
+                    <td class="idx">  -  </td>
                     <td colspan="4">
-            {% else %}
-                    <td colspan="2">
-            {% endif %}
-                        {% trans %}N/A{% endtrans %}
+                        {% trans %}Stop Scoring(채점 중단){% endtrans %}
                     </td>
                 </tr>
+            {% endif %}
         {% endif %}
     {% endfor %}
             </tbody>
